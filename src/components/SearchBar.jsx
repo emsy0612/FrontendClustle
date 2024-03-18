@@ -167,10 +167,6 @@ const handleSearch = async (e) => {
     }
   }, [id]);
 
-  const handleNavigateToPolicy = (e) => {
-    e.preventDefault();
-    navigate('../policy');
-  };
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -247,7 +243,7 @@ const handleSearch = async (e) => {
             display:'flex',
             
                   boxSizing: 'border-box',
-                  padding: '0.005px',
+                  padding: '4px',
                   marginBottom: '30px',
                   backgroundColor: 'white',
             borderRadius: '10px',
@@ -258,15 +254,13 @@ const handleSearch = async (e) => {
         >
           <Input
             onChange={handleSearch}
-            placeholder="Search & instantly call experts"
+            placeholder="Search..."
             disableUnderline={true}
-            style={{width:'100%',maxWidth:'300px', 
-            padding: '10px', fontSize: '14px' }}
+            style={{ width:isSmallScreen?'100%':'80%', padding: '10', fontSize: '14px' }}
             inputProps={{
               style: {
                 border: 'none',
                 outline: 'none',
-                width:'100%'
               },
             }}
           />
@@ -357,7 +351,7 @@ const handleSearch = async (e) => {
         </div>
       </div>
       <Navbar2 customSearchFunction={customSearchFunction}/>
-      <InstantSearch searchClient={searchClient} indexName="emortech">
+      <InstantSearch searchClient={searchClient} indexName="konnect.users">
         <div style={{minHeight:"200vh"}}>
           <ResultsContainer>
             {searchResults.length > 0 ? (
@@ -370,12 +364,14 @@ const handleSearch = async (e) => {
                       profilePic={hit.profilePic}
                       description={hit.description}
                       rates={hit.rates}
+                      bio={hit.bio}
+                      available={hit.available}
                     />
                   </li>
                 ))}
               </ol>
             ) : (
-              <p>{searchTerm && 'Coming soon......'}</p>
+              <p>{searchTerm && 'No results found'}</p>
             )}
           </ResultsContainer>
         </div>
