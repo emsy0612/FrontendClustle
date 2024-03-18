@@ -16,7 +16,7 @@ const AvPhoneCall = styled.div`
   align-items: center;
   justify-content: center;
   gap: 0.2rem;
-  background-color: #343a40;
+  background-color: black;
   flex: 1;
   border-radius:0 0 6px 0;
   text-align: center;
