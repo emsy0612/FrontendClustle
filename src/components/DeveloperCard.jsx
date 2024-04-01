@@ -205,10 +205,14 @@ const Green = styled.img.attrs(() => ({
   src: button,
 }))`
   position: absolute;
-  top: 1rem;
+  top: 4.5rem;
+  left:9rem;
   right: 1rem;
   width: 20px;
   height: 20px;
+  border-radius: 50%; /* Rounded shape */
+background: radial-gradient(circle, #32CD32 20%, transparent 50%); /* Green gradient */
+box-shadow: 0 0 5px rgba(50, 205, 50, 0.8); /* Add shadow for depth */
   display: ${({ isAvailable }) => (isAvailable ? 'inline-block' : 'none')};
 `;
 
