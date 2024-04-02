@@ -48,7 +48,9 @@ const Policy = () => {
   <li>Date you joined OSI as a member</li>
 </ul>
 
-
+<h2>Refund Policy:</h2>
+<p> we do not provide any refunds </p>
+        
 <h2>Information We Collect Automatically:</h2>
 <p>We automatically collect information about your use of our Site through cookies, web beacons, and other technologies. To the extent permitted by applicable law, we combine this information with other information we collect about you, including your personal information. Please see the section “Cookies and Other Tracking Mechanisms” below for more information.</p>
 
@@ -62,6 +64,7 @@ const Policy = () => {
   <li>The length of time you visit our Site and/or use our Services</li>
   <li>The referring URL, or the webpage that led you to our Site</li>
 </ul>
+        
 
 <h2>How We Use Your Information:</h2>
 <ul>
