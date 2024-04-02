@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import serverUrl from "./config";
 import logo from "./assets/logo.png"
 import { Link } from "react-router-dom";
+import axios from 'axios';
 
 
 const Triangle = styled.div`
@@ -114,9 +115,10 @@ const OTPContainer = styled.input`
 
 const SubmitButton = styled.button`
   cursor: pointer;
-  background-color: black;
+  background-color: ${(props) => (props.disabled ? 'grey' : 'black')};
   color: white;
   border: none;
+  outline: 2px solid black;
   border-radius: 1rem;
   margin-top: 0.5rem;
   padding: 0.5rem 1rem;
@@ -124,6 +126,9 @@ const SubmitButton = styled.button`
   align-items: center;
   justify-content: center;
   min-width: 8vw;
+  &:hover {
+    background-color: ${(props) => (props.disabled ? 'grey' : '#333')};
+  }
 `;
 
 const Form = styled.form`
@@ -163,6 +168,21 @@ const OTPErrorMessage = styled(ErrorMessage)`
 `;
 const AcceptRulesCheckbox = styled.input`
   
+`;
+const HeadingContainer = styled.div`
+display: flex;
+gap: 1rem;
+align-items: center;
+margin-bottom: 1rem;
+margin-top:1rem;
+`;
+
+
+const ClustleHeading = styled.h1`
+font-size: 3rem;
+font-weight: bold;
+color: #333; /* Adjust color to your preference */ /* Remove default margin */
+margin:0 auto; 
 `;
 const AcceptRulesContainer = styled.div`
   display: flex;
@@ -263,13 +283,6 @@ export default function AuthPage() {
 		}
 	}, [])
 
-
-  
-
-
-
-
-
   const validatePhoneNumber = (input) => {
     if (!input.startsWith("+")) {
       return "Number should start with + country code and contact number.";
@@ -329,6 +342,13 @@ export default function AuthPage() {
     }
   };
 
+  const handleSendMessage = async () => {
+        try {
+            await axios.post(`${serverUrl}/send-message`, { phoneNumber });
+        } catch (error) {
+            console.error('Error sending message:', error);
+        }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -368,21 +388,6 @@ export default function AuthPage() {
       setErrorMessage("Error during OTP verification. Please try again.");
     }
   };
-  const HeadingContainer = styled.div`
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  margin-bottom: 1rem;
-  margin-top:1rem;
-`;
-
-const ClustleHeading = styled.h1`
-  font-size: 3rem;
-  font-weight: bold;
-  color: #333; /* Adjust color to your preference */ /* Remove default margin */
-  margin:0 auto; 
-`;
-
   const handlePhoneNumberChange = (e) => {
     let input = e.target.value;
     input = input.replace(/[^+\w]/g, "");
@@ -540,23 +545,13 @@ const ClustleHeading = styled.h1`
                 Resend OTP
               </Verify>
 )}
-<SubmitButton   style={{
-    cursor: 'pointer',
-    backgroundColor: 'black',
-    color: 'white',
-    outline: '1px solid black',
-    border: 'none',
-    transition: 'background-color 0.3s ease',
-  }}
-  onMouseOver={(e) => { e.target.style.backgroundColor = '#333' }}
-  onMouseOut={(e) => { e.target.style.backgroundColor = 'black' }}
-  onMouseDown={(e) => { e.target.style.backgroundColor = '#555' }}
-  onMouseUp={(e) => { e.target.style.backgroundColor = '#333' }}
+<SubmitButton  onClick={handleSendMessage} disabled={otp.length !== 4}
 >Submit</SubmitButton>
             </>
           )}
         </Form>
       </Container>
+
     </>
   );
 }
