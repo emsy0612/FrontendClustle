@@ -285,22 +285,48 @@ export default function AuthPage() {
 		}
 	}, [])
 
+  // const validatePhoneNumber = (input) => {
+  //   if (!input.startsWith("+")) {
+  //     return "Number should start with + country code and contact number.";
+  //   }
+
+  //   const digitsAfterFirstThree = input.slice(3).replace(/\D/g, "");
+  //   if (input.length > 3 && digitsAfterFirstThree.length < 9) {
+  //     return "Valid contact number to be inserted after the country code.";
+  //   }
+
+  //   if (!/^\+[\d]+$/.test(input)) {
+  //     return "Please enter a valid number with the country code.";
+  //   }
+
+  //   return "";
+  // };
   const validatePhoneNumber = (input) => {
+    // Regular expression for matching country code followed by digits
+    const countryCodeRegex = /^\+(?:[0-9] ?){6,14}[0-9]$/;
+
+    // Check if input starts with a "+" sign
     if (!input.startsWith("+")) {
-      return "Number should start with + country code and contact number.";
+        return "Number should start with + country code and contact number.";
     }
 
-    const digitsAfterFirstThree = input.slice(3).replace(/\D/g, "");
-    if (input.length > 3 && digitsAfterFirstThree.length < 10) {
-      return "Valid contact number to be inserted after the country code.";
+    // Check if input matches the country code format
+    if (!countryCodeRegex.test(input)) {
+        return "Please enter a valid number with the country code.";
     }
 
-    if (!/^\+[\d]+$/.test(input)) {
-      return "Please enter a valid number with the country code.";
+    // Extract digits from input
+    const digits = input.replace(/\D/g, "");
+
+    // Check if the number of digits after the country code meets minimum length
+    if (digits.length < 9) {
+        return "Valid contact number to be inserted after the country code.";
     }
 
+    // Validation passed
     return "";
-  };
+};
+
 
   const handleVerify = async (e, resend = false) => {
     e.preventDefault();
@@ -338,6 +364,7 @@ export default function AuthPage() {
         setSuccessMessage("OTP sent successfully!");
       } else {
         setErrorMessage(`${data.message}\nCheck the number or country code!`);
+        console.log(data.message)
       }
     } finally {
       setIsLoading(false);
@@ -441,7 +468,7 @@ export default function AuthPage() {
                 value={phoneNumber}
                 onChange={handlePhoneNumberChange}
                 style={{ marginBottom: '1rem' }}
-                maxLength="13"
+                maxLength="14"
               ></ContactNumberContainer>
               {errorMessage && (
                 <ErrorMessage>{errorMessage}</ErrorMessage>
@@ -494,7 +521,7 @@ export default function AuthPage() {
       value={phoneNumber}
       onChange={handlePhoneNumberChange}
       style={{ marginBottom: '1rem' }}
-      maxLength={13}
+      maxLength={14}
     />
     {errorMessage && (
       <ErrorMessage>{errorMessage}</ErrorMessage>
@@ -547,7 +574,7 @@ export default function AuthPage() {
                 Resend OTP
               </Verify>
 )}
-<SubmitButton  onClick={handleSendMessage} disabled={otp.length !== 4}
+<SubmitButton  onClick={handleSendMessage} 
 >Submit</SubmitButton>
             </>
           )}
